@@ -12,7 +12,7 @@ public class App {
         paymentMethods.add(new Wallet("Main Wallet", 10000));
         paymentMethods.add(new DebitCard("123456789", 100000, "1234"));
         paymentMethods.add(new CreditCard("987654321", 500000, "123", "1234"));
-
+        paymentMethods.add(new EWallet("081234567890", 200000, "1234"));
         PaymentProcessor processor = new PaymentProcessor(input);
 
         while (true) {
@@ -60,6 +60,7 @@ public class App {
                 System.out.println("1. Cash (Wallet)");
                 System.out.println("2. Debit Card");
                 System.out.println("3. Credit Card");
+                System.out.println("4. E-Wallet");
                 System.out.print("Pilih jenis pembayaran: ");
                 int type = input.nextInt();
 
@@ -112,6 +113,22 @@ public class App {
                     paymentMethods.add(new CreditCard(cardNumber, limit, ccv, pin));
                     System.out.println("Credit Card berhasil ditambahkan!");
 
+                } else if (type == 4) {
+                    input.nextLine();
+
+                    System.out.print("Masukkan nomor HP: ");
+                    String phoneNumber = input.nextLine();
+
+                    System.out.print("Masukkan saldo E-Wallet: ");
+                    double balance = input.nextDouble();
+
+                    input.nextLine();
+
+                    System.out.print("Masukkan PIN: ");
+                    String pin = input.nextLine();
+
+                    paymentMethods.add(new EWallet(phoneNumber, balance, pin));
+                    System.out.println("E-Wallet berhasil ditambahkan!");
                 } else {
                     System.out.println("Jenis pembayaran tidak valid!");
                 }
@@ -124,7 +141,5 @@ public class App {
                 System.out.println("Pilihan tidak valid!");
             }
         }
-
-        input.close();
     }
 }
