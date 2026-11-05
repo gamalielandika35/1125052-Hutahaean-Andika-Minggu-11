@@ -23,6 +23,11 @@ public class CreditCard implements PaymentStrategy {
 
     public boolean validate(double amount) {
         return currentDebt + amount <= limit;
+    } 
+
+    @Override
+    public boolean canPay(double amount) {
+        return amount >= 100000 && amount <= 100000000;
     }
 
     public void pay(double amount) {

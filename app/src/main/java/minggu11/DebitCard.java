@@ -17,6 +17,9 @@ public class DebitCard implements PaymentStrategy {
         return "Debit Card - " + cardNumber;
     }
 
+    public boolean canPay(double amount) {
+        return amount > 0 && amount <= 10000000;
+    }
 
     public boolean validate(double amount) {
         return balance >= amount;

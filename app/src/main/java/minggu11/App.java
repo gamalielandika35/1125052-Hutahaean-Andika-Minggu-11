@@ -1,4 +1,5 @@
 package minggu11;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,18 +29,30 @@ public class App {
 
                 System.out.println("\nPilih metode pembayaran:");
 
+                ArrayList<PaymentStrategy> availableMethods = new ArrayList<>();
+
                 for (int i = 0; i < paymentMethods.size(); i++) {
-                    System.out.println((i + 1) + ". " + paymentMethods.get(i).getName());
+                    if (paymentMethods.get(i).canPay(amount)) {
+                        availableMethods.add(paymentMethods.get(i));
+                    }
                 }
 
-                System.out.print("Pilihan: ");
-                int choice = input.nextInt();
-
-                if (choice >= 1 && choice <= paymentMethods.size()) {
-                    PaymentStrategy selectedMethod = paymentMethods.get(choice - 1);
-                    processor.processPayment(selectedMethod, amount);
+                if (availableMethods.isEmpty()) {
+                    System.out.println("Tidak ada metode pembayaran yang tersedia untuk nominal tersebut!");
                 } else {
-                    System.out.println("Pilihan tidak valid!");
+                    for (int i = 0; i < availableMethods.size(); i++) {
+                        System.out.println((i + 1) + ". " + availableMethods.get(i).getName());
+                    }
+
+                    System.out.print("Pilihan: ");
+                    int choice = input.nextInt();
+
+                    if (choice >= 1 && choice <= availableMethods.size()) {
+                        PaymentStrategy selectedMethod = availableMethods.get(choice - 1);
+                        processor.processPayment(selectedMethod, amount);
+                    } else {
+                        System.out.println("Pilihan tidak valid!");
+                    }
                 }
 
             } else if (menu == 2) {

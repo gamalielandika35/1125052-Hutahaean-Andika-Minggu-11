@@ -16,6 +16,10 @@ public class Wallet implements PaymentStrategy {
     public boolean validate(double amount) {
         return cashValue >= amount;
     }
+    @Override
+public boolean canPay(double amount) {
+    return amount >= 100 && amount <= 1000000;
+}
     public void pay(double amount) {
         if (validate(amount)) {
             cashValue -= amount;
