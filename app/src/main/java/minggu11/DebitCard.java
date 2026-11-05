@@ -1,4 +1,5 @@
 package minggu11;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class DebitCard implements PaymentStrategy {
     public boolean validate(double amount) {
         return balance >= amount;
     }
+
     public void pay(double amount) {
         if (validate(amount)) {
             balance -= amount;
@@ -32,16 +34,11 @@ public class DebitCard implements PaymentStrategy {
             System.out.println("Saldo debit tidak mencukupi!");
         }
     }
-    public List<AuthorizationMethod> getRequiredAuthorizations() {
-        List<AuthorizationMethod> authorizations = new ArrayList<>();
-        authorizations.add(AuthorizationMethod.PIN);
-        return authorizations;
-    }
-    public boolean validateAuthorization(AuthorizationMethod method, String value) {
-        if (method == AuthorizationMethod.PIN) {
-            return pin.equals(value);
-        }
 
-        return false;
+    @Override
+    public List<AuthorizationStrategy> getRequiredAuthorizations() {
+        List<AuthorizationStrategy> authorizations = new ArrayList<>();
+        authorizations.add(new PINAuthorization(pin));
+        return authorizations;
     }
 }

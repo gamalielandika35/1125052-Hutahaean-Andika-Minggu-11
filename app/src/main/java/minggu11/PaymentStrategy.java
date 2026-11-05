@@ -3,9 +3,7 @@ package minggu11;
 import java.util.List;
 
 public interface PaymentStrategy extends PaymentMethod {
-    List<AuthorizationMethod> getRequiredAuthorizations();
-
-    boolean validateAuthorization(AuthorizationMethod method, String value);
+    List<AuthorizationStrategy> getRequiredAuthorizations();
 
     boolean canPay(double amount);
 }

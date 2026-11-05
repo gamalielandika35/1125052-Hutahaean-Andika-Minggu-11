@@ -1,4 +1,5 @@
 package minggu11;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,19 +15,22 @@ public class PaymentProcessor {
             System.out.println("Pembayaran gagal! Saldo atau limit tidak mencukupi.");
             return;
         }
-        List<AuthorizationMethod> requiredAuthorizations = strategy.getRequiredAuthorizations();
+
+        List<AuthorizationStrategy> requiredAuthorizations =
+                strategy.getRequiredAuthorizations();
 
         for (int i = 0; i < requiredAuthorizations.size(); i++) {
-            AuthorizationMethod method = requiredAuthorizations.get(i);
+            AuthorizationStrategy authorization = requiredAuthorizations.get(i);
 
-            System.out.print("Masukkan " + method + ": ");
+            System.out.print("Masukkan " + authorization.getName() + ": ");
             String value = input.next();
 
-            if (!strategy.validateAuthorization(method, value)) {
+            if (!authorization.validate(value)) {
                 System.out.println("Otorisasi gagal! Pembayaran dibatalkan.");
                 return;
             }
         }
+
         strategy.pay(amount);
     }
 }

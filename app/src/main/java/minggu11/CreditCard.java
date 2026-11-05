@@ -1,4 +1,5 @@
 package minggu11;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +17,14 @@ public class CreditCard implements PaymentStrategy {
         this.ccv = ccv;
         this.pin = pin;
     }
+
     public String getName() {
         return "Credit Card - " + cardNumber;
     }
 
-
     public boolean validate(double amount) {
         return currentDebt + amount <= limit;
-    } 
+    }
 
     @Override
     public boolean canPay(double amount) {
@@ -39,21 +40,11 @@ public class CreditCard implements PaymentStrategy {
         }
     }
 
-    public List<AuthorizationMethod> getRequiredAuthorizations() {
-        List<AuthorizationMethod> authorizations = new ArrayList<>();
-        authorizations.add(AuthorizationMethod.CCV);
-        authorizations.add(AuthorizationMethod.PIN);
+    @Override
+    public List<AuthorizationStrategy> getRequiredAuthorizations() {
+        List<AuthorizationStrategy> authorizations = new ArrayList<>();
+        authorizations.add(new CCVAuthorization(ccv));
+        authorizations.add(new PINAuthorization(pin));
         return authorizations;
-    }
-
-
-    public boolean validateAuthorization(AuthorizationMethod method, String value) {
-        if (method == AuthorizationMethod.CCV) {
-            return ccv.equals(value);
-        } else if (method == AuthorizationMethod.PIN) {
-            return pin.equals(value);
-        }
-
-        return false;
     }
 }
