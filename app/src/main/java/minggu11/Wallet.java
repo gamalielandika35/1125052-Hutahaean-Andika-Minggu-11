@@ -1,6 +1,8 @@
 package minggu11;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Wallet implements PaymentMethod {
+public class Wallet implements PaymentStrategy {
     String name;
     double cashValue;
 
@@ -14,7 +16,6 @@ public class Wallet implements PaymentMethod {
     public boolean validate(double amount) {
         return cashValue >= amount;
     }
-
     public void pay(double amount) {
         if (validate(amount)) {
             cashValue -= amount;
@@ -22,5 +23,11 @@ public class Wallet implements PaymentMethod {
         } else {
             System.out.println("Saldo wallet tidak mencukupi!");
         }
+    }
+    public List<AuthorizationMethod> getRequiredAuthorizations() {
+        return new ArrayList<>();
+    }
+    public boolean validateAuthorization(AuthorizationMethod method, String value) {
+        return true;
     }
 }

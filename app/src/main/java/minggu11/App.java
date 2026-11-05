@@ -1,5 +1,4 @@
 package minggu11;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,11 +6,13 @@ public class App {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        ArrayList<PaymentMethod> paymentMethods = new ArrayList<>();
+        ArrayList<PaymentStrategy> paymentMethods = new ArrayList<>();
 
         paymentMethods.add(new Wallet("Main Wallet", 10000));
         paymentMethods.add(new DebitCard("123456789", 100000, "1234"));
         paymentMethods.add(new CreditCard("987654321", 500000, "123", "1234"));
+
+        PaymentProcessor processor = new PaymentProcessor(input);
 
         while (true) {
             System.out.println("\n=== PAYMENT SYSTEM ===");
@@ -35,8 +36,8 @@ public class App {
                 int choice = input.nextInt();
 
                 if (choice >= 1 && choice <= paymentMethods.size()) {
-                    PaymentMethod selectedMethod = paymentMethods.get(choice - 1);
-                    selectedMethod.pay(amount);
+                    PaymentStrategy selectedMethod = paymentMethods.get(choice - 1);
+                    processor.processPayment(selectedMethod, amount);
                 } else {
                     System.out.println("Pilihan tidak valid!");
                 }
@@ -69,9 +70,12 @@ public class App {
 
                     System.out.print("Masukkan saldo debit: ");
                     double balance = input.nextDouble();
+
                     input.nextLine();
+
                     System.out.print("Masukkan PIN: ");
                     String pin = input.nextLine();
+
                     paymentMethods.add(new DebitCard(cardNumber, balance, pin));
                     System.out.println("Debit Card berhasil ditambahkan!");
 
@@ -83,9 +87,12 @@ public class App {
 
                     System.out.print("Masukkan limit kredit: ");
                     double limit = input.nextDouble();
+
                     input.nextLine();
+
                     System.out.print("Masukkan CCV: ");
                     String ccv = input.nextLine();
+
                     System.out.print("Masukkan PIN: ");
                     String pin = input.nextLine();
 
@@ -95,12 +102,16 @@ public class App {
                 } else {
                     System.out.println("Jenis pembayaran tidak valid!");
                 }
+
             } else if (menu == 3) {
                 System.out.println("Program selesai.");
                 break;
+
             } else {
                 System.out.println("Pilihan tidak valid!");
             }
         }
+
+        input.close();
     }
 }
