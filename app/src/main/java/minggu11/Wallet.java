@@ -1,6 +1,6 @@
 package minggu11;
 
-public class Wallet {
+public class Wallet implements PaymentMethod {
     String name;
     double cashValue;
 
@@ -8,7 +8,9 @@ public class Wallet {
         this.name = name;
         this.cashValue = cashValue;
     }
-
+    public String getName() {
+        return "Cash - " + name;
+    }
     public boolean validate(double amount) {
         return cashValue >= amount;
     }
